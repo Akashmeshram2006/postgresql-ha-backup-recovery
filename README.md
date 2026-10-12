@@ -70,4 +70,11 @@ Do not commit passwords, private keys, access keys, or real environment files. U
 
 ## Author
 
-Student internship project — PostgreSQL HA, failover, backup, and recovery.
+**Akash Meshram**  
+GitHub: [@Akashmeshram2006](https://github.com/Akashmeshram2006)
+
+### Project
+
+PostgreSQL High Availability and Backup & Recovery using Patroni, etcd, pgBackRest, and MinIO.
+
+This project was developed as a hands-on learning project to explore database replication, automatic failover, backup automation, and recovery testing.
