@@ -1,0 +1,68 @@
+services:
+  patroni-pg1:
+    image: postgres-patroni:16
+    container_name: patroni-pg1
+    hostname: patroni-pg1
+    user: postgres
+    volumes:
+      - patroni-pg1-data:/var/lib/postgresql/data
+      - ./config/pg1.yml:/etc/patroni.yml:ro
+      - ./config/pgbackrest/pgbackrest.conf:/etc/pgbackrest/pgbackrest.conf:ro
+      - ./config/pgbackrest/spool:/var/spool/pgbackrest
+    networks:
+      - postgres-ha-net
+    ports:
+      - "5543:5432"
+      - "8001:8008"
+    command: ["patroni", "/etc/patroni.yml"]
+
+  patroni-pg2:
+    image: postgres-patroni:16
+    container_name: patroni-pg2
+    hostname: patroni-pg2
+    user: postgres
+    volumes:
+      - patroni-pg2-data:/var/lib/postgresql/data
+      - ./config/pg2.yml:/etc/patroni.yml:ro
+      - ./config/pgbackrest/pgbackrest.conf:/etc/pgbackrest/pgbackrest.conf:ro
+      - ./config/pgbackrest/spool:/var/spool/pgbackrest
+    networks:
+      - postgres-ha-net
+    ports:
+      - "5544:5432"
+      - "8002:8008"
+    command: ["patroni", "/etc/patroni.yml"]
+
+  patroni-pg3:
+    image: postgres-patroni:16
+    container_name: patroni-pg3
+    hostname: patroni-pg3
+    user: postgres
+    volumes:
+      - patroni-pg3-data:/var/lib/postgresql/data
+      - ./config/pg3.yml:/etc/patroni.yml:ro
+      - ./config/pgbackrest/pgbackrest.conf:/etc/pgbackrest/pgbackrest.conf:ro
+      - ./config/pgbackrest/spool:/var/spool/pgbackrest
+    networks:
+      - postgres-ha-net
+    ports:
+      - "5545:5432"
+      - "8003:8008"
+    command: ["patroni", "/etc/patroni.yml"]
+
+networks:
+  postgres-ha-net:
+    external: true
+
+volumes:
+  patroni-pg1-data:
+    external: true
+    name: 6f82dc1af97886dc65db8dac1ec0094e4a678833af02a40f61a72569cef6ab3f
+
+  patroni-pg2-data:
+    external: true
+    name: d0135da60e31f0dac7ce03e754c53ed683b7682275f4f0df249acaa50dd8d896
+
+  patroni-pg3-data:
+    external: true
+    name: 31581f08830a40cdec67d427e1b3aac92cc030f4f7d763c50601b2bb16ee666f

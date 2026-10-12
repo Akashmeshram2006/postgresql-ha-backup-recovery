@@ -1,0 +1,160 @@
+============================================================
+POSTGRESQL HIGH AVAILABILITY AND BACKUP/RECOVERY SYSTEM
+============================================================
+
+                        CLIENTS
+                           |
+                           v
+                       HAProxy
+                           |
+             +-------------+-------------+
+             |                           |
+             v                           v
+           PG1                          PG2
+         PRIMARY                      REPLICA 1
+             |                           ^
+             |                           |
+             | Streaming Replication     |
+             +---------------------------+
+             |
+             v
+           PG3
+         REPLICA 2
+
+
+                 PATRONI + ETCD
+              HA COORDINATION LAYER
+
+                       |
+                       v
+
+                     MINIO
+               BACKUP OBJECT STORAGE
+
+
+============================================================
+MAIN COMPONENTS
+============================================================
+
+PG1
+    PostgreSQL Primary
+
+PG2
+    PostgreSQL Replica 1
+
+PG3
+    PostgreSQL Replica 2
+
+Patroni
+    PostgreSQL HA and failover management
+
+etcd
+    Distributed configuration and coordination store
+
+HAProxy
+    Client connection routing
+
+MinIO
+    Backup/object storage
+
+Docker
+    Containerized laboratory environment
+
+Docker Compose
+    Multi-container environment management
+
+
+============================================================
+NETWORK
+============================================================
+
+Docker network:
+
+postgres-ha-net
+
+Planned services:
+
+pg1
+pg2
+pg3
+etcd1
+etcd2
+etcd3
+haproxy
+minio
+
+
+============================================================
+MAIN PROJECT FEATURES
+============================================================
+
+1. PostgreSQL primary database
+2. Two PostgreSQL replicas
+3. Streaming replication
+4. Automatic failover
+5. HA connection routing
+6. Database backups
+7. MinIO object storage
+8. Database restore/recovery
+9. Failure testing
+10. RPO measurement
+11. RTO measurement
+12. Documentation
+
+
+============================================================
+LAB ENVIRONMENT
+============================================================
+
+The project uses Docker containers to simulate
+independent PostgreSQL and supporting infrastructure nodes.
+
+This is a laboratory implementation of a multi-node
+PostgreSQL HA architecture.
+
+
+============================================================
+IMPORTANT DISTINCTION
+============================================================
+
+Replication provides high availability and copies database
+changes between nodes.
+
+Backups provide an independent recovery mechanism.
+
+Therefore:
+
+Replication != Backup
+
+
+============================================================
+FAILURE SCENARIO
+============================================================
+
+Normal:
+
+Client
+  |
+HAProxy
+  |
+PG1 PRIMARY
+  |
+  +---- PG2 REPLICA
+  |
+  +---- PG3 REPLICA
+
+
+After PG1 failure:
+
+PG1 = FAILED
+
+Patroni coordinates failover.
+
+One healthy replica can be promoted to PRIMARY.
+
+HAProxy can then route client traffic to the new PRIMARY.
+
+
+============================================================
+END
+============================================================

@@ -1,0 +1,56 @@
+
+# Python virtual environments
+patroni-venv/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Database backups and local data
+backups/
+*.dump
+*.sql.gz
+*.backup
+*.tar
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*~
+
+# Local recovery/test artifacts
+recovery-data/
+
+# TLS certificates and private keys
+minio/certs/
+
+# Patroni configuration may contain credentials
+patroni/config/pg1.yml
+patroni/config/pg2.yml
+patroni/config/pg3.yml
+patroni/config/pgbackrest/pgbackrest.conf
+
+
+# Editor swap files
+*.swp
+*.swo
+
+# Logs
+logs/
+**/logs/
+
+# MinIO executable binary
+minio/minio
+
+# Local Compose files containing demo credentials
+docker-compose.yml
+minio-compose.yml
+minio/minio-compose.yml
