@@ -46,7 +46,7 @@ These are results from individual lab tests, not guaranteed production performan
 - `scripts/` — backup automation.
 - `etcd-compose.yml` — etcd cluster definition.
 
-Local configurations containing credentials, TLS private keys, backups, logs, and the MinIO executable are excluded from Git. Sanitized example configuration files still need to be prepared for reproducible setup.
+Local configurations containing credentials, TLS private keys, backups, logs, and the MinIO executable are excluded from Git. Sanitized example configurations are provided for the three Patroni nodes and pgBackRest. Replace placeholder credentials with your own values before using the examples. These examples document the lab setup and are not production-ready configurations.
 
 ## Limitations
 
@@ -62,7 +62,7 @@ Do not commit passwords, private keys, access keys, or real environment files. U
 
 ## Future Improvements
 
-- Add sanitized example configurations and setup instructions.
+- Improve setup instructions so another developer can reproduce the lab safely.
 - Deploy HAProxy for a stable client connection endpoint.
 - Add monitoring dashboards and alerting.
 - Repeat failure tests and compare recovery measurements.
