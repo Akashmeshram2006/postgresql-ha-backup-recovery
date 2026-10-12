@@ -1,0 +1,54 @@
+scope: postgres-ha
+name: pg2
+
+restapi:
+  listen: 0.0.0.0:8008
+  connect_address: patroni-pg2:8008
+
+etcd3:
+  hosts: etcd1:2379,etcd2:2379,etcd3:2379
+
+bootstrap:
+  dcs:
+    ttl: 30
+    loop_wait: 10
+    retry_timeout: 10
+    maximum_lag_on_failover: 1048576
+    postgresql:
+      use_pg_rewind: true
+      parameters:
+        wal_level: replica
+        hot_standby: "on"
+        max_wal_senders: 10
+        max_replication_slots: 10
+        wal_keep_size: 128MB
+
+  initdb:
+    - encoding: UTF8
+    - locale: C
+
+postgresql:
+  listen: 0.0.0.0:5432
+  connect_address: patroni-pg2:5432
+  data_dir: /var/lib/postgresql/data
+  bin_dir: /usr/lib/postgresql/16/bin
+
+  authentication:
+    superuser:
+      username: postgres
+      password: "<CHANGE_ME_POSTGRES_PASSWORD>"
+    replication:
+      username: replicator
+      password: "<CHANGE_ME_REPLICATION_PASSWORD>"
+
+  pg_hba:
+    - local all all trust
+    - host all all 0.0.0.0/0 scram-sha-256
+    - host replication replicator 172.18.0.0/16 scram-sha-256
+
+  parameters:
+    wal_level: replica
+    hot_standby: "on"
+    max_wal_senders: 10
+    max_replication_slots: 10
+    wal_keep_size: 128MB
