@@ -12,4 +12,4 @@ and replication.
 ```sql
 CREATE ROLE dbadmin
 WITH LOGIN CREATEDB CREATEROLE
-PASSWORD 'dbadminpass';
+PASSWORD '<YOUR_PASSWORD>';
