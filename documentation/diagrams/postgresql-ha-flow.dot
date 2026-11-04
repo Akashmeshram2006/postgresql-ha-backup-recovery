@@ -1,0 +1,95 @@
+digraph PostgreSQL_HA_Project {
+
+    graph [
+        label="POSTGRESQL HIGH AVAILABILITY, BACKUP AND RECOVERY",
+        labelloc="t",
+        fontsize=20,
+        fontname="Arial",
+        rankdir=TB,
+        bgcolor="white",
+        nodesep=0.5,
+        ranksep=0.7
+    ];
+
+    node [
+        shape=box,
+        style="rounded,filled",
+        fontname="Arial",
+        fontsize=11,
+        margin=0.2
+    ];
+
+    edge [
+        fontname="Arial",
+        fontsize=9,
+        color="#444444"
+    ];
+
+    app [label="Application / Database Client",
+         fillcolor="#DCEBFF"];
+
+    patroni [label="Patroni HA Manager",
+             fillcolor="#D9EAD3"];
+
+    etcd [label="etcd Cluster\n(Leader Election and Coordination)",
+          fillcolor="#FFF2CC"];
+
+    pg1 [label="PostgreSQL Node 1\nPRIMARY",
+         fillcolor="#B6D7A8"];
+
+    pg2 [label="PostgreSQL Node 2\nREPLICA",
+         fillcolor="#D9EAD3"];
+
+    pg3 [label="PostgreSQL Node 3\nREPLICA",
+         fillcolor="#D9EAD3"];
+
+    pgbackrest [label="pgBackRest\nBackup Management",
+                fillcolor="#D9D2E9"];
+
+    backup [label="Full / Differential Backups",
+            fillcolor="#EADCF8"];
+
+    wal [label="WAL Archiving",
+         fillcolor="#EADCF8"];
+
+    minio [label="MinIO Object Storage",
+           fillcolor="#FCE5CD"];
+
+    restore [label="Backup Restoration",
+             fillcolor="#CFE2F3"];
+
+    recovery [label="WAL Recovery",
+               fillcolor="#CFE2F3"];
+
+    verify [label="Recovered Database\nVerification",
+            fillcolor="#B6D7A8"];
+
+    app -> patroni [label="Database access"];
+    patroni -> etcd [label="Cluster coordination", dir=both];
+
+    patroni -> pg1;
+    patroni -> pg2;
+    patroni -> pg3;
+
+    pg1 -> pg2 [label="Streaming replication"];
+    pg1 -> pg3 [label="Streaming replication"];
+
+    pg1 -> pgbackrest [label="Backup and WAL"];
+    pgbackrest -> backup;
+    pgbackrest -> wal;
+
+    backup -> minio;
+    wal -> minio;
+
+    minio -> restore;
+    restore -> recovery;
+    recovery -> verify;
+
+    failover [label="Automatic Failover\nNew Primary Election",
+              shape=diamond,
+              fillcolor="#F4CCCC"];
+
+    etcd -> failover [style=dashed];
+    failover -> pg2 [label="Promote if selected", style=dashed];
+    failover -> pg3 [label="Promote if selected", style=dashed];
+}
