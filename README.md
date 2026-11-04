@@ -90,3 +90,7 @@ GitHub: [@Akashmeshram2006](https://github.com/Akashmeshram2006)
 PostgreSQL High Availability and Backup & Recovery using Patroni, etcd, pgBackRest, and MinIO.
 
 This project was developed as a hands-on learning project to explore database replication, automatic failover, backup automation, and recovery testing.
+
+## Project Flow Diagram
+
+![PostgreSQL HA Project Flow](documentation/diagrams/postgresql-ha-flow.png)
