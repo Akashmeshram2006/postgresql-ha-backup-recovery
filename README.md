@@ -31,7 +31,7 @@ Client access currently uses published PostgreSQL node ports. HAProxy or another
 
 ## Observed Test Results
 
-The following results were recorded during controlled tests on 4 November 2026:
+The following results were recorded during controlled tests on 10 November 2026:
 
 - Three PostgreSQL nodes operated under Patroni management.
 - Both replicas maintained streaming replication.
@@ -47,7 +47,7 @@ The following results were recorded during controlled tests on 4 November 2026:
   - 40 marks records
   - Total: 73 records
 - RPO test: All 10 acknowledged test transactions survived the controlled failover, with zero missing records in this test.
-- RTO test: A successful database write was completed on the new primary after 4.442 seconds.
+- RTO test: A successful database write was completed on the new primary after 3.053 seconds.
 
 These are observations from individual controlled lab tests. They are not guaranteed production performance or a guarantee of zero data loss under all failure scenarios. Replication is asynchronous.
 ## Repository Contents

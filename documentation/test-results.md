@@ -33,7 +33,7 @@
 | 13 | Post-failover write | INSERT on pg3 succeeded | PASS |
 | 14 | Post-failover replication | Inserted record appeared on pg2 | PASS |
 | 15 | RPO controlled failover test | 10/10 acknowledged records survived; 0 missing records in this test | PASS |
-| 16 | RTO controlled failover test | Successful INSERT on new primary after 4.442 seconds | PASS |
+| 16 | RTO controlled failover test | Successful INSERT on new primary after 3.053 seconds | PASS |
 |17 | Old primary rejoin | pg1 rejoined as a streaming replica; zero lag | PASS |
 
 ## 3. Database Recovery Validation
@@ -87,17 +87,17 @@ The observed interval between pg1 stopping and the first log confirmation of pg3
 - Patroni automatically elected pg3 as the new primary.
 - Executed a test INSERT on pg3 and confirmed that it succeeded.
 
-**Failure timestamp:** `2026-11-04T16:35:01.939402+00:00`
+**Failure timestamp:** `2026-11-10T11:43:34.643555+00:00`
 
-**Successful write timestamp:** `2026-11-04T16:35:06.381026+00:00`
+**Successful write timestamp:** `2026-11-10T11:43:37.696005+00:00`
 
-**Observed RTO:** `4.442 seconds`
+**Observed RTO:** `3.053 seconds`
 
 **Note:** This measures the time from issuing the primary-stop command until a successful database write. It is an observed result in this test environment, not a guaranteed recovery time for every workload or failure.
 ## 6. Conclusion
 
 The PostgreSQL cluster, streaming replication, etcd health, MinIO availability, backup repository, database restoration, WAL recovery, controlled automatic failover, post-failover write replication and old-primary rejoin have been successfully tested.
 
-The controlled failover tests recorded zero missing records among the 10 RPO test transactions and an observed database write-recovery time of 4.442 seconds. These are test-specific results, not universal guarantees.
+The controlled failover tests recorded zero missing records among the 10 RPO test transactions and an observed database write-recovery time of 3.053 seconds. These are test-specific results, not universal guarantees.
 **Note:** The recovery test used the selected 6 October 2026 backup. It does not establish recovery of data created after that backup.
 
